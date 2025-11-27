@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Twin</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 2rem;
+            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1), transparent 50%);
+            position: relative;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg width="100" height="100" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="100" height="100" patternUnits="userSpaceOnUse"><path d="M 100 0 L 0 0 0 100" fill="none" stroke="rgba(59,130,246,0.1)" stroke-width="1"/></pattern></defs><rect width="100%" height="100%" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .tagline {
+            font-size: 1.5rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            font-weight: 300;
+        }
+
+        .hook {
+            font-size: 1.8rem;
+            color: #60a5fa;
+            margin-bottom: 3rem;
+            font-style: italic;
+            max-width: 800px;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border: none;
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            color: white;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s;
+            font-weight: 600;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
+        }
+
+        .demo-section {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, #1a1f3a 0%, #0f1629 100%);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .demo-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .body-visualization {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .body-container {
+            position: relative;
+            height: 600px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .body-svg {
+            width: 200px;
+            height: 500px;
+        }
+
+        .body-part {
+            transition: all 0.5s ease;
+        }
+
+        .health-status {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(15, 23, 42, 0.8);
+            border-radius: 15px;
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .status-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            padding: 0.8rem;
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 10px;
+        }
+
+        .status-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 1rem;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .controls-panel {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .control-group {
+            margin-bottom: 2rem;
+        }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .control-value {
+            color: #60a5fa;
+            font-weight: 600;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 5px;
+            background: rgba(30, 41, 59, 0.8);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        input[type="range"]::-webkit-slider-thumb:hover {
+            transform: scale(1.2);
+        }
+
+        .bmi-display {
+            text-align: center;
+            padding: 1.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .bmi-value {
+            font-size: 3rem;
+            font-weight: 700;
+            margin: 0.5rem 0;
+        }
+
+        .bmi-category {
+            font-size: 1.2rem;
+            color: #94a3b8;
+        }
+
+        .pricing-section {
+            min-height: 100vh;
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, #0f1629 0%, #1a1f3a 100%);
+        }
+
+        .pricing-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 20px;
+            padding: 2.5rem;
+            border: 1px solid rgba(59, 130, 246, 0.2);
+            backdrop-filter: blur(10px);
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-10px);
+            border-color: rgba(59, 130, 246, 0.5);
+        }
+
+        .pricing-card.featured {
+            border: 2px solid #3b82f6;
+        }
+
+        .featured-badge {
+            position: absolute;
+            top: 20px;
+            right: -35px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            padding: 0.3rem 3rem;
+            transform: rotate(45deg);
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .plan-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #60a5fa;
+        }
+
+        .plan-price {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .plan-period {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+        }
+
+        .plan-features {
+            list-style: none;
+            margin-bottom: 2rem;
+        }
+
+        .plan-features li {
+            padding: 0.8rem 0;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            color: #cbd5e1;
+        }
+
+        .plan-features li:before {
+            content: "✓";
+            color: #3b82f6;
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+
+        .plan-button {
+            width: 100%;
+            padding: 1rem;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border: none;
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+
+        .plan-button:hover {
+            opacity: 0.9;
+        }
+
+        .plan-button.secondary {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            h1 { font-size: 2.5rem; }
+            .tagline { font-size: 1.2rem; }
+            .hook { font-size: 1.3rem; }
+            .demo-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Digital Twin</h1>
+            <p class="tagline">Predict Your Future Health Like Tomorrow's Weather</p>
+            <p class="hook">"What if you could see health problems before they happen?"</p>
+            <button class="cta-button" onclick="document.getElementById('demo').scrollIntoView({behavior: 'smooth'})">
+                Experience Your Digital Twin
+            </button>
+        </div>
+    </section>
+
+    <!-- Interactive Demo Section -->
+    <section class="demo-section" id="demo">
+        <h2 class="section-title">Interactive Digital Twin Visualization</h2>
+        <div class="demo-container">
+            <div class="body-visualization">
+                <div class="body-container">
+                    <svg class="body-svg" viewBox="0 0 200 500" xmlns="http://www.w3.org/2000/svg">
+                        <!-- Head -->
+                        <ellipse id="head" class="body-part" cx="100" cy="40" rx="30" ry="35" fill="#3b82f6" opacity="0.7"/>
+                        
+                        <!-- Neck -->
+                        <rect id="neck" class="body-part" x="90" y="70" width="20" height="20" fill="#3b82f6" opacity="0.7"/>
+                        
+                        <!-- Chest/Heart -->
+                        <ellipse id="chest" class="body-part" cx="100" cy="130" rx="45" ry="50" fill="#3b82f6" opacity="0.7"/>
+                        
+                        <!-- Stomach -->
+                        <ellipse id="stomach" class="body-part" cx="100" cy="200" rx="40" ry="35" fill="#3b82f6" opacity="0.7"/>
+                        
+                        <!-- Left Arm -->
+                        <rect id="leftArm" class="body-part" x="45" y="100" width="15" height="80" rx="7" fill="#3b82f6" opacity="0.7"/>
+                        
+                        <!-- Right Arm -->
+                        <rect id="rightArm" class="body-part" x="140" y="100" width="15" height="80" rx="7" fill="#3b82f6" opacity="0.7"/>
+                        
+                        <!-- Left Leg -->
+                        <rect id="leftLeg" class="body-part" x="75" y="235" width="20" height="120" rx="10" fill="#3b82f6" opacity="0.7"/>
+                        
+                        <!-- Right Leg -->
+                        <rect id="rightLeg" class="body-part" x="105" y="235" width="20" height="120" rx="10" fill="#3b82f6" opacity="0.7"/>
+                        
+                        <!-- Knees -->
+                        <circle id="leftKnee" class="body-part" cx="85" cy="310" r="12" fill="#3b82f6" opacity="0.8"/>
+                        <circle id="rightKnee" class="body-part" cx="115" cy="310" r="12" fill="#3b82f6" opacity="0.8"/>
+                    </svg>
+                </div>
+
+                <div class="health-status">
+                    <h3 style="margin-bottom: 1rem; color: #60a5fa;">Health Predictions</h3>
+                    <div class="status-item">
+                        <div class="status-indicator" id="cardiovascularIndicator"></div>
+                        <span id="cardiovascularStatus">Analyzing cardiovascular health...</span>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-indicator" id="jointIndicator"></div>
+                        <span id="jointStatus">Analyzing joint health...</span>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-indicator" id="stressIndicator"></div>
+                        <span id="stressStatus">Analyzing stress levels...</span>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-indicator" id="metabolicIndicator"></div>
+                        <span id="metabolicStatus">Analyzing metabolic health...</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-panel">
+                <h3 style="margin-bottom: 2rem; color: #60a5fa;">Adjust Your Metrics</h3>
+                
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Body Weight</span>
+                        <span class="control-value"><span id="weightValue">70</span> kg</span>
+                    </div>
+                    <input type="range" id="weight" min="40" max="150" value="70" step="1">
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Height</span>
+                        <span class="control-value"><span id="heightValue">170</span> cm</span>
+                    </div>
+                    <input type="range" id="height" min="140" max="210" value="170" step="1">
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Activity Level</span>
+                        <span class="control-value"><span id="activityValue">3</span>/5</span>
+                    </div>
+                    <input type="range" id="activity" min="1" max="5" value="3" step="1">
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Sleep Hours</span>
+                        <span class="control-value"><span id="sleepValue">7</span> hrs</span>
+                    </div>
+                    <input type="range" id="sleep" min="3" max="10" value="7" step="0.5">
+                </div>
+
+                <div class="control-group">
+                    <div class="control-label">
+                        <span>Stress Level</span>
+                        <span class="control-value"><span id="stressValue">3</span>/5</span>
+                    </div>
+                    <input type="range" id="stress" min="1" max="5" value="3" step="1">
+                </div>
+
+                <div class="bmi-display">
+                    <div style="color: #94a3b8; font-size: 0.9rem;">Body Mass Index</div>
+                    <div class="bmi-value" id="bmiValue">24.2</div>
+                    <div class="bmi-category" id="bmiCategory">Normal Weight</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing-section">
+        <h2 class="section-title">Choose Your Plan</h2>
+        <div class="pricing-container">
+            <div class="pricing-card">
+                <div class="plan-name">Free</div>
+                <div class="plan-price">£0</div>
+                <div class="plan-period">Forever</div>
+                <ul class="plan-features">
+                    <li>Basic health metrics</li>
+                    <li>Simple activity tracking</li>
+                    <li>Weekly health summary</li>
+                    <li>Community support</li>
+                </ul>
+                <button class="plan-button secondary">Get Started</button>
+            </div>
+
+            <div class="pricing-card featured">
+                <div class="featured-badge">POPULAR</div>
+                <div class="plan-name">Premium Monthly</div>
+                <div class="plan-price">£25</div>
+                <div class="plan-period">per month</div>
+                <ul class="plan-features">
+                    <li>Full Digital Twin visualization</li>
+                    <li>AI-powered health predictions</li>
+                    <li>Personalized prevention plans</li>
+                    <li>Real-time risk alerts</li>
+                    <li>Wearable integration</li>
+                    <li>Priority support</li>
+                </ul>
+                <button class="plan-button">Start Free Trial</button>
+            </div>
+
+            <div class="pricing-card">
+                <div class="plan-name">Premium Annual</div>
+                <div class="plan-price">£250</div>
+                <div class="plan-period">per year (save £50)</div>
+                <ul class="plan-features">
+                    <li>Everything in Monthly</li>
+                    <li>Advanced genetic insights</li>
+                    <li>Nutritionist consultations</li>
+                    <li>Family health tracking</li>
+                    <li>Annual health report</li>
+                    <li>VIP support</li>
+                </ul>
+                <button class="plan-button">Start Free Trial</button>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Get all controls
+        const weightSlider = document.getElementById('weight');
+        const heightSlider = document.getElementById('height');
+        const activitySlider = document.getElementById('activity');
+        const sleepSlider = document.getElementById('sleep');
+        const stressSlider = document.getElementById('stress');
+
+        // Get display elements
+        const weightValue = document.getElementById('weightValue');
+        const heightValue = document.getElementById('heightValue');
+        const activityValue = document.getElementById('activityValue');
+        const sleepValue = document.getElementById('sleepValue');
+        const stressValue = document.getElementById('stressValue');
+        const bmiValue = document.getElementById('bmiValue');
+        const bmiCategory = document.getElementById('bmiCategory');
+
+        // Get body parts
+        const head = document.getElementById('head');
+        const chest = document.getElementById('chest');
+        const stomach = document.getElementById('stomach');
+        const leftKnee = document.getElementById('leftKnee');
+        const rightKnee = document.getElementById('rightKnee');
+        const leftLeg = document.getElementById('leftLeg');
+        const rightLeg = document.getElementById('rightLeg');
+
+        // Get status indicators
+        const cardiovascularIndicator = document.getElementById('cardiovascularIndicator');
+        const cardiovascularStatus = document.getElementById('cardiovascularStatus');
+        const jointIndicator = document.getElementById('jointIndicator');
+        const jointStatus = document.getElementById('jointStatus');
+        const stressIndicator = document.getElementById('stressIndicator');
+        const stressStatus = document.getElementById('stressStatus');
+        const metabolicIndicator = document.getElementById('metabolicIndicator');
+        const metabolicStatus = document.getElementById('metabolicStatus');
+
+        function calculateBMI() {
+            const weight = parseFloat(weightSlider.value);
+            const height = parseFloat(heightSlider.value) / 100; // Convert to meters
+            return (weight / (height * height)).toFixed(1);
+        }
+
+        function getBMICategory(bmi) {
+            if (bmi < 18.5) return 'Underweight';
+            if (bmi < 25) return 'Normal Weight';
+            if (bmi < 30) return 'Overweight';
+            return 'Obese';
+        }
+
+        function getHealthColor(risk) {
+            if (risk === 'low') return '#22c55e'; // Green
+            if (risk === 'medium') return '#eab308'; // Yellow
+            return '#ef4444'; // Red
+        }
+
+        function updateBodyVisualization() {
+            const weight = parseFloat(weightSlider.value);
+            const height = parseFloat(heightSlider.value);
+            const activity = parseFloat(activitySlider.value);
+            const sleep = parseFloat(sleepSlider.value);
+            const stressLevel = parseFloat(stressSlider.value);
+            
+            const bmi = calculateBMI();
+            const bmiNum = parseFloat(bmi);
+
+            // Update BMI display
+            bmiValue.textContent = bmi;
+            const category = getBMICategory(bmiNum);
+            bmiCategory.textContent = category;
+
+            // Calculate risks
+            const cardiovascularRisk = (bmiNum > 25 || activity < 3) ? (bmiNum > 30 || activity < 2 ? 'high' : 'medium') : 'low';
+            const jointRisk = (bmiNum > 28 && activity < 3) ? 'high' : (bmiNum > 25 ? 'medium' : 'low');
+            const stressRisk = (stressLevel > 3 || sleep < 6) ? (stressLevel > 4 || sleep < 5 ? 'high' : 'medium') : 'low';
+            const metabolicRisk = (bmiNum > 27 && activity < 3) ? 'high' : (bmiNum > 25 || activity < 3 ? 'medium' : 'low');
+
+            // Update head (stress/sleep related)
+            head.style.fill = getHealthColor(stressRisk);
+            head.style.opacity = stressRisk === 'high' ? '1' : '0.7';
+
+            // Update chest (cardiovascular)
+            chest.style.fill = getHealthColor(cardiovascularRisk);
+            chest.style.opacity = cardiovascularRisk === 'high' ? '1' : '0.7';
+
+            // Update stomach (metabolic)
+            stomach.style.fill = getHealthColor(metabolicRisk);
+            stomach.style.opacity = metabolicRisk === 'high' ? '1' : '0.7';
+            
+            // Scale stomach based on BMI
+            const stomachScale = Math.min(1 + (bmiNum - 22) * 0.02, 1.4);
+            stomach.setAttribute('rx', 40 * stomachScale);
+
+            // Update knees (joint stress)
+            leftKnee.style.fill = getHealthColor(jointRisk);
+            rightKnee.style.fill = getHealthColor(jointRisk);
+            leftKnee.style.opacity = jointRisk === 'high' ? '1' : '0.8';
+            rightKnee.style.opacity = jointRisk === 'high' ? '1' : '0.8';
+
+            // Update legs based on BMI
+            const legWidth = Math.min(20 + (bmiNum - 22) * 0.5, 30);
+            leftLeg.setAttribute('width', legWidth);
+            rightLeg.setAttribute('width', legWidth);
+
+            // Update status messages
+            cardiovascularIndicator.style.background = getHealthColor(cardiovascularRisk);
+            if (cardiovascularRisk === 'high') {
+                cardiovascularStatus.textContent = '⚠️ High cardiovascular risk detected. Increase activity and monitor weight.';
+            } else if (cardiovascularRisk === 'medium') {
+                cardiovascularStatus.textContent = '⚡ Moderate risk. Consider increasing physical activity.';
+            } else {
+                cardiovascularStatus.textContent = '✓ Cardiovascular health looks good!';
+            }
+
+            jointIndicator.style.background = getHealthColor(jointRisk);
+            if (jointRisk === 'high') {
+                jointStatus.textContent = '⚠️ High joint strain risk. Weight management recommended.';
+            } else if (jointRisk === 'medium') {
+                jointStatus.textContent = '⚡ Moderate joint stress. Monitor activity levels.';
+            } else {
+                jointStatus.textContent = '✓ Joint health is optimal!';
+            }
+
+            stressIndicator.style.background = getHealthColor(stressRisk);
+            if (stressRisk === 'high') {
+                stressStatus.textContent = '⚠️ High stress/poor sleep detected. Prioritize rest and relaxation.';
+            } else if (stressRisk === 'medium') {
+                stressStatus.textContent = '⚡ Elevated stress. Improve sleep quality for better health.';
+            } else {
+                stressStatus.textContent = '✓ Stress levels and sleep are healthy!';
+            }
+
+            metabolicIndicator.style.background = getHealthColor(metabolicRisk);
+            if (metabolicRisk === 'high') {
+                metabolicStatus.textContent = '⚠️ Metabolic syndrome risk. Lifestyle changes needed.';
+            } else if (metabolicRisk === 'medium') {
+                metabolicStatus.textContent = '⚡ Metabolic health needs attention. Balance diet and exercise.';
+            } else {
+                metabolicStatus.textContent = '✓ Metabolic health is excellent!';
+            }
+        }
+
+        // Add event listeners
+        weightSlider.addEventListener('input', (e) => {
+            weightValue.textContent = e.target.value;
+            updateBodyVisualization();
+        });
+
+        heightSlider.addEventListener('input', (e) => {
+            heightValue.textContent = e.target.value;
+            updateBodyVisualization();
+        });
+
+        activitySlider.addEventListener('input', (e) => {
+            activityValue.textContent = e.target.value;
+            updateBodyVisualization();
+        });
+
+        sleepSlider.addEventListener('input', (e) => {
+            sleepValue.textContent = e.target.value;
+            updateBodyVisualization();
+        });
+
+        stressSlider.addEventListener('input', (e) => {
+            stressValue.textContent = e.target.value;
+            updateBodyVisualization();
+        });
+
+        // Initialize
+        updateBodyVisualization();
+    </script>
+</body>
+</html>
