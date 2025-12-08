@@ -16,6 +16,9 @@
             background: linear-gradient(135deg, #0a0e27 0%, #1a1f3a 100%);
             color: #fff;
             overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            gap: 50px;
         }
 
         .hero {
@@ -26,7 +29,6 @@
             align-items: center;
             text-align: center;
             padding: 2rem;
-            background: radial-gradient(circle at 50% 50%, rgba(59, 130, 246, 0.1), transparent 50%);
             position: relative;
         }
 
@@ -88,10 +90,45 @@
             box-shadow: 0 10px 30px rgba(59, 130, 246, 0.4);
         }
 
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+            padding: 0 50px;
+        }
+
+        .card {
+            background: rgba(30, 41, 59, 0.5);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(239, 68, 68, 0.6);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .card h3 {
+            color: #ef4444;
+            margin-bottom: 1rem;
+        }
+
+        .card p {
+            color: #cbd5e1;
+            line-height: 1.6;
+        }
+
         .demo-section {
             min-height: 100vh;
             padding: 4rem 2rem;
-            background: linear-gradient(180deg, #1a1f3a 0%, #0f1629 100%);
         }
 
         .section-title {
@@ -239,7 +276,6 @@
         .pricing-section {
             min-height: 100vh;
             padding: 4rem 2rem;
-            background: linear-gradient(180deg, #0f1629 0%, #1a1f3a 100%);
         }
 
         .pricing-container {
@@ -339,14 +375,54 @@
             background: rgba(59, 130, 246, 0.2);
         }
 
+        .financials {
+            margin-top: 50px;
+        }
+
+        .financial-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 3rem;
+        }
+
+        .financial-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        }
+
+        .financial-value.positive {
+            color: #22c55e;
+        }
+
+        .highlight-box {
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2) 0%, rgba(139, 92, 246, 0.2) 100%);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .highlight-number {
+            font-size: 3rem;
+            font-weight: 700;
+            color: #60a5fa;
+        }
+
+
         @media (max-width: 768px) {
             h1 { font-size: 2.5rem; }
-            .tagline { font-size: 1.2rem; }
-            .hook { font-size: 1.3rem; }
-            .demo-container {
+            h2 { font-size: 2rem; }
+            .demo-container, .financial-grid {
                 grid-template-columns: 1fr;
             }
-        }
+            nav ul {
+                gap: 0.8rem;
+                font-size: 0.8rem;
+            }
+        }    
     </style>
 </head>
 <body>
@@ -359,6 +435,62 @@
             <button class="cta-button" onclick="document.getElementById('demo').scrollIntoView({behavior: 'smooth'})">
                 Experience Your Digital Twin
             </button>
+        </div>
+    </section>
+
+    <section class="problem" id="problem">
+        <div class="section-content">
+            <h2 class="section-title">The Problem: Health Data Without Insight</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">📊</div>
+                    <h3>Data Overload</h3>
+                    <p>Wearables track steps, heart rate, and calories—but can't tell you what it all means for your future health. Numbers without context are useless.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">⏰</div>
+                    <h3>Reactive, Not Proactive</h3>
+                    <p>Current health apps only react to symptoms after they appear. By then, it's often too late to prevent serious conditions.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎯</div>
+                    <h3>One-Size-Fits-All</h3>
+                    <p>Generic health advice doesn't account for your unique body, lifestyle, genetics, or daily habits. Everyone's different.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">💰</div>
+                    <h3>Preventable Diseases Cost Billions</h3>
+                    <p>Chronic diseases that could be prevented with early intervention cost healthcare systems over $1 trillion annually worldwide.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="solution" id="solution">
+        <div class="section-content">
+            <h2 class="section-title">Our Solution</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon">🔮</div>
+                    <h3>Predictive Intelligence</h3>
+                    <p>AI forecasts health risks weeks in advance—like weather forecasting for your body.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🧬</div>
+                    <h3>Medical-Grade Personalization</h3>
+                    <p>Recommendations tailored to your biometrics, genetics, and daily habits.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🎨</div>
+                    <h3>3D Digital Twin</h3>
+                    <p>Interactive body model showing risk zones and predicted outcomes in real-time.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon">🔗</div>
+                    <h3>Seamless Integration</h3>
+                    <p>Works with Apple Watch, Fitbit, Oura—no new hardware required.</p>
+                </div>
+            </div>
         </div>
     </section>
 
@@ -474,7 +606,7 @@
 
     <!-- Pricing Section -->
     <section class="pricing-section">
-        <h2 class="section-title">Choose Your Plan</h2>
+        <h2 class="section-title">Pricing Plan</h2>
         <div class="pricing-container">
             <div class="pricing-card">
                 <div class="plan-name">Free</div>
@@ -518,6 +650,89 @@
                     <li>VIP support</li>
                 </ul>
                 <button class="plan-button">Start Free Trial</button>
+            </div>
+        </div>
+    </section>
+
+    <section class="market" id="market">
+        <div class="section-content">
+            <h2 class="section-title">Market Opportunity</h2>
+            <div class="card-grid">
+                <div class="card stat-card">
+                    <div class="stat-number">$2T+</div>
+                    <p style="color: #94a3b8;">Digital health market by 2034</p>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-number">20%</div>
+                    <p style="color: #94a3b8;">Annual growth rate</p>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-number">$493B</div>
+                    <p style="color: #94a3b8;">Wearable tech market by 2032</p>
+                </div>
+                <div class="card stat-card">
+                    <div class="stat-number">44%</div>
+                    <p style="color: #94a3b8;">Americans own health wearables</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="financials" id="financials">
+        <div class="section-content">
+            <h2 class="section-title">Financial Overview</h2>
+            <div class="financial-grid">
+                <div class="card">
+                    <h3>Year 1 Costs</h3>
+                    <div class="financial-item">
+                        <span>Development</span>
+                        <span class="control-value">£30,000</span>
+                    </div>
+                    <div class="financial-item">
+                        <span>Cloud & AI</span>
+                        <span class="control-value">£20,000</span>
+                    </div>
+                    <div class="financial-item">
+                        <span>Marketing</span>
+                        <span class="control-value">£15,000</span>
+                    </div>
+                    <div class="financial-item">
+                        <span>Legal & Compliance</span>
+                        <span class="control-value">£5,000</span>
+                    </div>
+                    <div class="financial-item">
+                        <span>Contingency</span>
+                        <span class="control-value">£7,500</span>
+                    </div>
+                    <div class="financial-item" style="border-top: 2px solid rgba(59, 130, 246, 0.3); padding-top: 1rem; margin-top: 1rem;">
+                        <span style="font-weight: 600;">Total</span>
+                        <span class="control-value" style="font-size: 1.3rem;">£82,500</span>
+                    </div>
+                </div>
+                <div class="card">
+                    <h3>Year 1 Revenue</h3>
+                    <div class="financial-item">
+                        <span>Target Users</span>
+                        <span class="control-value">1,000 premium</span>
+                    </div>
+                    <div class="financial-item">
+                        <span>Gross Revenue</span>
+                        <span class="control-value">£161,900</span>
+                    </div>
+                    <div class="financial-item">
+                        <span>Net Revenue (after fees)</span>
+                        <span class="control-value">£102,473</span>
+                    </div>
+                    <div class="financial-item" style="border-top: 2px solid rgba(59, 130, 246, 0.3); padding-top: 1rem; margin-top: 1rem;">
+                        <span style="font-weight: 600;">Year 1 Profit</span>
+                        <span class="financial-value positive" style="font-size: 1.3rem;">£21,864</span>
+                    </div>
+                    <div class="highlight-box">
+                        <div style="color: #94a3b8; margin-bottom: 0.5rem;">Breakeven Point</div>
+                        <div class="highlight-number">477 users</div>
+                        <div style="color: #94a3b8; margin-top: 0.5rem;">Achieved in 6-7 months</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
