@@ -21,6 +21,38 @@
             gap: 50px;
         }
 
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(10, 14, 39, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        nav a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+            font-weight: 500;
+        }
+
+        nav a:hover {
+            color: #60a5fa;
+        }
+
         .hero {
             min-height: 100vh;
             display: flex;
@@ -411,6 +443,14 @@
             color: #60a5fa;
         }
 
+        .vision-text {
+            font-size: 1.8rem;
+            color: #60a5fa;
+            margin: 3rem auto;
+            max-width: 900px;
+            line-height: 1.6;
+            font-style: italic;
+        }
 
         @media (max-width: 768px) {
             h1 { font-size: 2.5rem; }
@@ -426,6 +466,41 @@
     </style>
 </head>
 <body>
+
+  <div style="
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 9999;
+">
+    <a href="https://www.instagram.com/orest_galenza/" target="_blank"
+       style="
+            color: gold;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px 14px;
+            border-radius: 8px;
+            backdrop-filter: blur(6px);
+       ">
+        Website Made by Orest Halenza
+    </a>
+</div>
+
+    <nav>
+        <ul>
+            <li><a href="#hero">Home</a></li>
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#solution">Solution</a></li>
+            <li><a href="#demo">Live Demo</a></li>
+            <li><a href="#market">Market</a></li>
+            <li><a href="#financials">Financials</a></li>
+            <li><a href="#impact">Impact</a></li>
+        </ul>
+    </nav>
+
+
     <!-- Hero Section -->
     <section class="hero">
         <div class="hero-content">
@@ -736,6 +811,41 @@
             </div>
         </div>
     </section>
+
+    <section class="impact" id="impact">
+        <div class="section-content">
+            <h2 class="section-title">Our Impact & Vision</h2>
+            <div class="card-grid">
+                <div class="card">
+                    <div class="card-icon" style="font-size: 4rem;">🌍</div>
+                    <h3>Global Health Impact</h3>
+                    <p>Reducing preventable diseases through early detection and intervention.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="font-size: 4rem;">🔒</div>
+                    <h3>Privacy First</h3>
+                    <p>GDPR & HIPAA compliant with end-to-end encryption and user-controlled data.</p>
+                </div>
+                <div class="card">
+                    <div class="card-icon" style="font-size: 4rem;">♻️</div>
+                    <h3>Sustainable</h3>
+                    <p>Digital-only model with energy-efficient cloud infrastructure.</p>
+                </div>
+            </div>
+            <p style="text-align: center;" class="vision-text">
+                "We're not just building an app—we're pioneering a future where everyone can see their health destiny and change it."
+            </p>
+        </div>
+    </section>
+
+    <footer style="
+    text-align: center;
+    padding: 20px;
+    font-size: 1.2rem;
+    margin-top: 40px;
+    ">
+      <a href="https://www.instagram.com/orest_galenza/" target="_blank" style="color: gold; text-decoration: none; font-weight: 600;">Website Made by Orest Halenza </a>
+  </footer>
 
     <script>
         // Get all controls
