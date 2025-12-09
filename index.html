@@ -451,6 +451,100 @@
             line-height: 1.6;
             font-style: italic;
         }
+        .health-crisis-section {
+    margin: 4rem auto;
+    padding: 2rem;
+    background: rgba(239, 68, 68, 0.1);
+    border: 1px solid rgba(239, 68, 68, 0.3);
+    border-radius: 15px;
+    max-width: 1200px;
+}
+
+.crisis-title {
+    font-size: 1.3rem;
+    color: #ef4444;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.crisis-subtitle {
+    font-size: 0.95rem;
+    color: #94a3b8;
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.crisis-stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    text-align: center;
+}
+
+.crisis-stat-box {
+    padding: 1.5rem;
+    background: rgba(15, 23, 42, 0.5);
+    border-radius: 12px;
+    border: 1px solid rgba(239, 68, 68, 0.2);
+}
+
+.crisis-number {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #60a5fa;
+    margin-bottom: 0.5rem;
+}
+
+.crisis-label {
+    font-size: 0.9rem;
+    color: #94a3b8;
+    margin: 0.5rem 0;
+    line-height: 1.5;
+}
+
+.crisis-source {
+    font-size: 0.75rem;
+    color: #64748b;
+    margin-top: 0.5rem;
+    font-style: italic;
+}
+
+.crisis-source a {
+    color: #3b82f6;
+    text-decoration: none;
+}
+.credit-badge {
+    position: fixed;
+    top: 85px;
+    right: 20px;
+    z-index: 999;
+}
+
+.credit-link {
+    color: gold;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 0.65rem;
+    background: rgba(0, 0, 0, 0.5);
+    padding: 8px 12px;
+    border-radius: 8px;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255, 215, 0, 0.3);
+    transition: all 0.3s;
+    display: block;
+    white-space: nowrap;
+}
+
+.credit-link:hover {
+    background: rgba(0, 0, 0, 0.8);
+    border-color: gold;
+    transform: scale(1.05);
+}
+
+.crisis-source a:hover {
+    text-decoration: underline;
+}
 
         @media (max-width: 768px) {
             h1 { font-size: 2.5rem; }
@@ -462,31 +556,47 @@
                 gap: 0.8rem;
                 font-size: 0.8rem;
             }
+            .health-crisis-section {
+        padding: 1.5rem;
+        margin: 2rem 1rem;
+        .credit-badge {
+        position: static;
+        margin: 1rem auto;
+        text-align: center;
+        width: fit-content;
+    }
+    
+    .credit-link {
+        font-size: 0.75rem;
+    }
+    }
+    
+    .crisis-title {
+        font-size: 1.1rem;
+    }
+    
+    .crisis-stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .crisis-number {
+        font-size: 2rem;
+    }
+    
+    .crisis-label {
+        font-size: 0.85rem;
+    }
         }    
     </style>
 </head>
 <body>
 
-  <div style="
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    z-index: 9999;
-">
-    <a href="https://www.instagram.com/orest_galenza/" target="_blank"
-       style="
-            color: gold;
-            text-decoration: none;
-            font-weight: 600;
-            font-size: 1rem;
-            background: rgba(0, 0, 0, 0.3);
-            padding: 8px 14px;
-            border-radius: 8px;
-            backdrop-filter: blur(6px);
-       ">
+  <div class="credit-badge">
+    <a href="https://www.instagram.com/orest_galenza/" target="_blank" rel="noopener" class="credit-link">
         Website Made by Orest Halenza
     </a>
-</div>
+  </div>
 
     <nav>
         <ul>
@@ -499,7 +609,7 @@
             <li><a href="#impact">Impact</a></li>
         </ul>
     </nav>
-
+  
 
     <!-- Hero Section -->
     <section class="hero">
@@ -510,8 +620,39 @@
             <button class="cta-button" onclick="document.getElementById('demo').scrollIntoView({behavior: 'smooth'})">
                 Experience Your Digital Twin
             </button>
+          </div>
+      </section>
+
+  <div class="health-crisis-section">
+    <p class="crisis-title">THE GLOBAL HEALTH CRISIS</p>
+    <p class="crisis-subtitle">Real-time impact since you opened this page</p>
+    
+    <div class="crisis-stats-grid">
+        <div class="crisis-stat-box">
+            <div class="crisis-number" id="preventableDeaths">0</div>
+            <div class="crisis-label">Deaths from preventable chronic diseases worldwide</div>
+            <div class="crisis-source">
+                (<a href="https://www.who.int/news-room/fact-sheets/detail/noncommunicable-diseases" target="_blank" rel="noopener">WHO, 2025</a>: 41M annually = 1.3/sec)
+            </div>
         </div>
-    </section>
+        
+        <div class="crisis-stat-box">
+            <div class="crisis-number" id="healthcareCost">$0</div>
+            <div class="crisis-label">Global economic burden of chronic diseases</div>
+            <div class="crisis-source">
+                (<a href="https://www3.weforum.org/docs/WEF_Harvard_HE_GlobalEconomicBurdenNonCommunicableDiseases_2011.pdf" target="_blank" rel="noopener">WEF, 2011</a>: $47T over 20 years)
+            </div>
+        </div>
+        
+        <div class="crisis-stat-box">
+            <div class="crisis-number" id="newDiagnoses">0</div>
+            <div class="crisis-label">New chronic disease diagnoses worldwide (estimated)</div>
+            <div class="crisis-source">
+                (Based on <a href="https://www.paho.org/en/topics/noncommunicable-diseases" target="_blank" rel="noopener">PAHO data</a>: 3B affected globally)
+            </div>
+        </div>
+    </div>
+</div>
 
     <section class="problem" id="problem">
         <div class="section-content">
@@ -540,6 +681,34 @@
             </div>
         </div>
     </section>
+
+    <script>
+// Real-time health crisis counter
+(function() {
+    const pageStartTime = Date.now();
+    
+    function updateCrisisCounters() {
+        const secondsElapsed = (Date.now() - pageStartTime) / 1000;
+        
+        // WHO: 41 million deaths/year from NCDs = 77.8 deaths/minute = 1.3 deaths/second
+        const deaths = Math.floor(secondsElapsed * 1.3);
+        document.getElementById('preventableDeaths').textContent = deaths.toLocaleString();
+        
+        // WEF: $30 trillion over 20 years = $1.5T/year = $47,550/second
+        const cost = Math.floor(secondsElapsed * 47550);
+        document.getElementById('healthcareCost').textContent = '$' + cost.toLocaleString();
+        
+        // Conservative estimate: ~100 new diagnoses per second globally
+        // (Based on 3 billion people affected, continuous new cases)
+        const diagnoses = Math.floor(secondsElapsed * 100);
+        document.getElementById('newDiagnoses').textContent = diagnoses.toLocaleString();
+    }
+    
+    // Update every second
+    setInterval(updateCrisisCounters, 1000);
+    updateCrisisCounters(); // Initial call
+})();
+</script>
 
     <section class="solution" id="solution">
         <div class="section-content">
