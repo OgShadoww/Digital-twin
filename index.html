@@ -632,7 +632,7 @@
             <div class="crisis-number" id="preventableDeaths">0</div>
             <div class="crisis-label">Deaths from preventable chronic diseases worldwide</div>
             <div class="crisis-source">
-                (<a href="https://www.who.int/news-room/fact-sheets/detail/noncommunicable-diseases" target="_blank" rel="noopener">WHO, 2025</a>: 41M annually = 1.3/sec)
+                (<a href="https://www.who.int/news-room/fact-sheets/detail/noncommunicable-diseases" target="_blank" rel="noopener">WHO, 2025</a>: 43M annually ≈ 1.3/sec)
             </div>
         </div>
         
@@ -645,8 +645,8 @@
         </div>
         
         <div class="crisis-stat-box">
-            <div class="crisis-number" id="newDiagnoses">0</div>
-            <div class="crisis-label">New chronic disease diagnoses worldwide (estimated)</div>
+            <div class="crisis-number" id="newDiagnoses">Billions at risk.</div>
+            <div class="crisis-label">New chronic disease diagnoses worldwide </div>
             <div class="crisis-source">
                 (Based on <a href="https://www.paho.org/en/topics/noncommunicable-diseases" target="_blank" rel="noopener">PAHO data</a>: 3B affected globally)
             </div>
@@ -697,11 +697,6 @@
         // WEF: $30 trillion over 20 years = $1.5T/year = $47,550/second
         const cost = Math.floor(secondsElapsed * 47550);
         document.getElementById('healthcareCost').textContent = '$' + cost.toLocaleString();
-        
-        // Conservative estimate: ~100 new diagnoses per second globally
-        // (Based on 3 billion people affected, continuous new cases)
-        const diagnoses = Math.floor(secondsElapsed * 100);
-        document.getElementById('newDiagnoses').textContent = diagnoses.toLocaleString();
     }
     
     // Update every second
